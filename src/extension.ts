@@ -7,17 +7,14 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-const FIREFOX_PATH: string | null = findFirefoxPath();
+const EXTENSION_TITLE = "Firefox Profiles";
+const FIREFOX_PATH: string | null = findFirefoxPath(); // "/snap/bin/firefox"; //
 
 export default class FirefoxProfilesExtension extends Extension {
     private _indicator?: FirefoxProfilesIndicator;
-    private _launcher?: Gio.SubprocessLauncher;
 
     enable() {
-        this._indicator = new GFirefoxProfilesIndicator(() => (this._launcher!));
-        this._launcher = new Gio.SubprocessLauncher({
-            flags: Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE,
-        });
+        this._indicator = new GFirefoxProfilesIndicator();
         Main.panel.addToStatusArea(this.uuid, this._indicator);
     }
 
@@ -26,7 +23,6 @@ export default class FirefoxProfilesExtension extends Extension {
             this._indicator.destroy();
             this._indicator = undefined;
         }
-        this._launcher = undefined;
     }
 }
 
@@ -34,7 +30,7 @@ export default class FirefoxProfilesExtension extends Extension {
 
 
 class FirefoxProfilesIndicator extends PanelMenu.Button {
-    constructor(getLauncher: () => Gio.SubprocessLauncher) {
+    constructor() {
         // 0.0 est la valeur de menuAlignment
         super(0.0, 'Firefox Profiles');
 
@@ -48,9 +44,7 @@ class FirefoxProfilesIndicator extends PanelMenu.Button {
 
         getFirefoxProfiles().forEach(profile => {
             let item = new PopupMenu.PopupMenuItem(profile);
-            item.connect('activate', () => {
-                openFirefoxProfile2(getLauncher() , profile);
-            });
+            item.connect('activate', () => openFirefoxProfile(profile));
             menu.addMenuItem(item);
         });
     }
@@ -103,45 +97,39 @@ function getFirefoxProfiles(): string[] {
  * 
  * @param {string} profile name of the profile
  */
-function openFirefoxProfile(launcher: Gio.SubprocessLauncher, profile: string): void {
-    if (FIREFOX_PATH === null) {
-        logError('Firefox executable not found.');
+function openFirefoxProfile(profile: string): void {
+    if (!FIREFOX_PATH) {
+        Main.notify(EXTENSION_TITLE, "Firefox not found");
         return;
     }
 
-    GLib.spawn_async(
-        null,
-        [FIREFOX_PATH, '-P', profile, '-no-remote'],
-        null,
-        GLib.SpawnFlags.DO_NOT_REAP_CHILD,
-        null
-    );
-}
-
-
-function openFirefoxProfile2(launcher: Gio.SubprocessLauncher, profile: string): void {
-    const command = [`${FIREFOX_PATH} -P ${profile} -no-remote`];
+    // Command to open Firefox with the specified profile
+    const command = [FIREFOX_PATH, "-P", profile, "-no-remote"];
 
     try {
-        const proc = launcher.spawnv(command);
-        proc.communicate_utf8_async(null, null, (proc, res) => {
-            const [, stdout, stderr] = proc!.communicate_utf8_finish(res);
+        const launcher = new Gio.SubprocessLauncher({
+            flags: Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE,
+        });
+        const subprocess = launcher.spawnv(command);
+        subprocess.communicate_utf8_async(null, null, (proc, res) => {
+            if (!res || !proc) {
+                Main.notify(EXTENSION_TITLE, `[${profile}]: failed to start`);
+                return;
+            }
+
+            const [, stdout, stderr] = proc.communicate_utf8_finish(res);
 
             if (stdout || stderr) {
-                Main.notify("Firefox Profiles", `[${profile}]: ${stdout || stderr}`);
+                Main.notify(EXTENSION_TITLE, `[${profile}]: ${stdout || stderr}`);
             } else {
-                Main.notify("Firefox Profiles", `[${profile}]: completed with exit code: ${proc!.get_exit_status()}`);
+                Main.notify(EXTENSION_TITLE, `[${profile}]: completed with exit code: ${proc.get_exit_status()}`);
             }
         });
     } catch (e: unknown) {
         if (e instanceof GLib.Error) {
-            Main.notify("Firefox Profiles", `[${profile}]: ${e.toString().replace("GLib.SpawnError: ", "")}`);
+            Main.notify(EXTENSION_TITLE, `[${profile}]: ${e.toString().replace("GLib.SpawnError: ", "")}`);
         } else {
-            Main.notify("Firefox Profiles", `[${profile}]: An unknown error occurred`);
+            Main.notify(EXTENSION_TITLE, `[${profile}]: An unknown error occurred`);
         }
     }
 }
-
-
-
-
