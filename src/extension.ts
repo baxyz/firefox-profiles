@@ -8,7 +8,6 @@ import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 const EXTENSION_TITLE = "Firefox Profiles";
-const FIREFOX_PATH: string | null = findFirefoxPath(); // "/snap/bin/firefox"; //
 
 export default class FirefoxProfilesExtension extends Extension {
     private _indicator?: FirefoxProfilesIndicator;
@@ -27,7 +26,6 @@ export default class FirefoxProfilesExtension extends Extension {
 }
 
 // -- Indicator --
-
 
 class FirefoxProfilesIndicator extends PanelMenu.Button {
     constructor() {
@@ -53,23 +51,6 @@ class FirefoxProfilesIndicator extends PanelMenu.Button {
 const GFirefoxProfilesIndicator = GObject.registerClass(FirefoxProfilesIndicator);
 
 // -- Helpers --
-
-/**
- * Find the path to the Firefox executable.
- * 
- * @returns {string|null} The path to Firefox or null if not found.
- */
-function findFirefoxPath() {
-    try {
-        let [success, stdout, stderr, exitStatus] = GLib.spawn_command_line_sync('which firefox');
-        if (success && exitStatus === 0 && stdout) {
-            return stdout.toString().trim();
-        }
-    } catch (e) {
-        logError(e);
-    }
-    return null;
-}
 
 /**
  * Get Firefox profiles
@@ -98,13 +79,31 @@ function getFirefoxProfiles(): string[] {
  * @param {string} profile name of the profile
  */
 function openFirefoxProfile(profile: string): void {
-    if (!FIREFOX_PATH) {
-        Main.notify(EXTENSION_TITLE, "Firefox not found");
-        return;
-    }
+    const [success, stdout, stderr, r4] = GLib.spawn_command_line_sync(`systemd-run --user --scope firefox -P ${profile} -no-remote`);
+    Main.notify(EXTENSION_TITLE, `[${profile}]: success: ${success} -- stdout:  ${String.fromCharCode(...(stdout ?? []))} -- stderr:  ${String.fromCharCode(...(stderr ?? []))} -- r4: ${r4}`);
 
-    // Command to open Firefox with the specified profile
-    const command = [FIREFOX_PATH, "-P", profile, "-no-remote"];
+    /*
+    const result = GLib.spawn_command_line_async(`firefox -P ${profile} -no-remote`);
+    if (result) {
+        Main.notify(EXTENSION_TITLE, `[${profile}]: launched`);
+    } else {
+        Main.notify(EXTENSION_TITLE, `[${profile}]: failed to start`);
+    }
+    */
+    /*
+    GLib.spawn_async(
+        null,
+        ["systemd-run", "--user", "--scope", "firefox", '-P', profile, '-no-remote'],
+        null,
+        GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+        null
+    );
+    */
+}
+
+function openFirefoxProfile2(profile: string): void {
+    // Command to open Firefox with the specified profile using systemd-run
+    const command = ["systemd-run", "--user", "--scope", "firefox", "-P", profile, "-no-remote"];
 
     try {
         const launcher = new Gio.SubprocessLauncher({
@@ -118,6 +117,8 @@ function openFirefoxProfile(profile: string): void {
             }
 
             const [, stdout, stderr] = proc.communicate_utf8_finish(res);
+            if (stdout) logError(new Error(stdout), `[${profile}]: stdout`);
+            if (stderr) logError(new Error(stderr), `[${profile}]: stderr`);
 
             if (stdout || stderr) {
                 Main.notify(EXTENSION_TITLE, `[${profile}]: ${stdout || stderr}`);
@@ -126,6 +127,7 @@ function openFirefoxProfile(profile: string): void {
             }
         });
     } catch (e: unknown) {
+        logError(e as Object, `[${profile}]: failed to start`);
         if (e instanceof GLib.Error) {
             Main.notify(EXTENSION_TITLE, `[${profile}]: ${e.toString().replace("GLib.SpawnError: ", "")}`);
         } else {
