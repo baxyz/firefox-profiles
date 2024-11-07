@@ -50,10 +50,10 @@ dbus-run-session -- gnome-shell --nested --wayland
 Open a terminal inside the new session and enable the extension    
 
 ```bash
-gnome-extensions enable firefox-profiles@baxyz.tech
+gnome-extensions enable firefox-profiles@arnaud.work
 ```
 
 And to disable it:
 ```bash
-gnome-extensions disable firefox-profiles@baxyz.tech
+gnome-extensions disable firefox-profiles@arnaud.work
 ```

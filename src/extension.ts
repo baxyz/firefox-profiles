@@ -1,4 +1,3 @@
-import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import St from 'gi://St';
@@ -6,10 +5,18 @@ import { Extension, gettext as _ } from 'resource:///org/gnome/shell/extensions/
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
+
 
 const EXTENSION_TITLE = "Firefox Profiles";
 
+
+// -- Extension ----------------------------------------------------------------
+
+/**
+ * Main extension that mainly consists of an indicator.
+ * 
+ * @see FirefoxProfilesIndicator
+ */
 export default class FirefoxProfilesExtension extends Extension {
     private _indicator?: FirefoxProfilesIndicator;
 
@@ -26,8 +33,11 @@ export default class FirefoxProfilesExtension extends Extension {
     }
 }
 
-// -- Indicator --
+// -- Indicator ----------------------------------------------------------------
 
+/**
+ * Indicator for Firefox profiles
+ */
 class FirefoxProfilesIndicator extends PanelMenu.Button {
     constructor() {
         // 0.0 is the value of menuAlignment
@@ -51,7 +61,7 @@ class FirefoxProfilesIndicator extends PanelMenu.Button {
 
 const GFirefoxProfilesIndicator = GObject.registerClass(FirefoxProfilesIndicator);
 
-// -- Helpers --
+// -- Helpers ------------------------------------------------------------------
 
 /**
  * Get Firefox profiles

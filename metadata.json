@@ -4,6 +4,7 @@
   "uuid": "firefox-profiles@arnaud.work",
   "url": "https://github.com/baxyz/firefox-profiles",
   "shell-version": [
-    "46"
+    "46",
+    "47"
   ]
 }

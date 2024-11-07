@@ -1,23 +1,23 @@
 {
   "compilerOptions": {
-     "module": "ESNext",
-     "moduleResolution": "Bundler",
-     "outDir": "./dist",
-     "sourceMap": false,
-     "strict": true,
-     "target": "ES2022",
-     "rootDir": "./src",
-     "baseUrl": ".",
-     "paths": {
-        "*": [
-           "src/*"
-        ]
-     },
-     "lib": [
-        "ESNext"
-     ]
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "outDir": "./dist",
+    "sourceMap": false,
+    "strict": true,
+    "target": "ES2022",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "src/*"
+      ]
+    },
+    "lib": [
+      "ESNext"
+    ]
   },
   "include": [
-     "src/**/*.ts"
+    "src/**/*.ts"
   ]
 }

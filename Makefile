@@ -1,5 +1,5 @@
 NAME=firefox-profiles
-DOMAIN=baxyz.tech
+DOMAIN=arnaud.work
 
 .PHONY: all pack install clean
 
