@@ -1,6 +1,6 @@
 {
     "name": "firefox-profiles",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "This GNOME extension streamlines launching Firefox profiles from the indicator menu.",
     "type": "module",
     "private": true,
