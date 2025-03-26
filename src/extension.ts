@@ -5,9 +5,7 @@ import { Extension, gettext as _ } from 'resource:///org/gnome/shell/extensions/
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-
-
-const EXTENSION_TITLE = "Firefox Profiles";
+import { getFirefoxProfiles, openFirefoxProfile } from 'helper';
 
 
 // -- Extension ----------------------------------------------------------------
@@ -21,7 +19,7 @@ export default class FirefoxProfilesExtension extends Extension {
     private _indicator?: FirefoxProfilesIndicator;
 
     enable() {
-        this._indicator = new GFirefoxProfilesIndicator();
+        this._indicator = new GFirefoxProfilesIndicator(this.metadata.name);
         Main.panel.addToStatusArea(this.uuid, this._indicator);
     }
 
@@ -39,9 +37,9 @@ export default class FirefoxProfilesExtension extends Extension {
  * Indicator for Firefox profiles
  */
 class FirefoxProfilesIndicator extends PanelMenu.Button {
-    constructor() {
+    constructor(title: string) {
         // 0.0 is the value of menuAlignment
-        super(0.0, 'Firefox Profiles');
+        super(0.0, title);
 
         // Shortcut to the menu
         const menu = this.menu as PopupMenu.PopupMenu;
@@ -51,67 +49,16 @@ class FirefoxProfilesIndicator extends PanelMenu.Button {
             style_class: 'system-status-icon',
         }));
 
-        getFirefoxProfiles().forEach(profile => {
+        getFirefoxProfiles({ title }).forEach(profile => {
             let item = new PopupMenu.PopupMenuItem(profile);
-            item.connect('activate', () => openFirefoxProfile(profile));
+            item.connect('activate', () => openFirefoxProfile({
+                profile,
+                title,
+                notify: Main.notify
+            }));
             menu.addMenuItem(item);
         });
     }
 }
 
 const GFirefoxProfilesIndicator = GObject.registerClass(FirefoxProfilesIndicator);
-
-// -- Helpers ------------------------------------------------------------------
-
-/**
- * Get Firefox profiles
- * @returns {Array} - Array of Firefox profiles
- */
-function getFirefoxProfiles(): string[] {
-    let filePaths = [
-        GLib.get_home_dir() + '/.mozilla/firefox/profiles.ini',
-        GLib.get_home_dir() + '/snap/firefox/common/.mozilla/firefox/profiles.ini' // Edge case for Snap installation
-    ];
-    
-    let filePath = filePaths.find(path => GLib.file_test(path, GLib.FileTest.EXISTS));
-    
-    if (!filePath) {
-        Main.notify(EXTENSION_TITLE, 'Could not find the profiles.ini file.');
-        return [];
-    }
-
-    let fileContent = GLib.file_get_contents(filePath)[1];
-    let content = fileContent.toString();
-    let namePattern = /Name=(.*)/g;
-    let profiles: string[] = [];
-    let match;
-
-    while ((match = namePattern.exec(content)) !== null) {
-        profiles.push(match[1]);
-    }
-
-    return profiles;
-}
-
-/**
- * Open Firefox with a specific profile.
- * 
- * It will call `firefox -P <profile> -no-remote`.
- * 
- * @param {string} profile name of the profile
- */
-function openFirefoxProfile(profile: string): void {
-    const command = `firefox -P ${profile} -no-remote`;
-
-    try {
-        const success = GLib.spawn_command_line_async(command);
-
-        if (!success) {
-            Main.notify(EXTENSION_TITLE, `Failed to start Firefox with the "${profile}" profile.`);
-        }
-    } catch (e: unknown) {
-        const message = `An error occurred while launching Firefox with the "${profile}" profile.`;
-        logError(e as Object, `[${EXTENSION_TITLE}] ${message}`);
-        Main.notify(EXTENSION_TITLE, message);
-    }
-}
