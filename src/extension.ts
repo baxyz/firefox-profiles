@@ -39,10 +39,10 @@ class FirefoxProfilesIndicator extends Button {
     super(0.0, title);
 
     // Get Profiles
-    const profiles = getFirefoxProfiles({ title });
+    const profiles = getFirefoxProfiles({ title, notify: Main.notify });
 
     // Create the menu
-    createMenu({ title, menu: this.menu, profiles });
+    createMenu({ title, menu: this.menu, profiles, notify: Main.notify });
   }
 }
 

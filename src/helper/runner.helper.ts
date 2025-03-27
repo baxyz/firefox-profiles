@@ -8,15 +8,16 @@ import type * as Main from 'resource:///org/gnome/shell/ui/main.js';
  * 
  * @param {string} profile name of the profile
  */
-export function openFirefoxProfile({ profile, title, notify }: {
+export function openFirefoxProfile({ command, profile, title, notify }: {
+  command: string;
   profile: string;
   title: string;
   notify: typeof Main.notify;
 }): void {
-  const command = `firefox -P ${profile} -no-remote`;
+  const fullCommand = `${command} -P ${profile} -no-remote`;
 
   try {
-    const success = GLib.spawn_command_line_async(command);
+    const success = GLib.spawn_command_line_async(fullCommand);
 
     if (!success) {
       notify(title, `Failed to start Firefox with the "${profile}" profile.`);

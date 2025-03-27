@@ -1,24 +1,49 @@
 import GLib from 'gi://GLib';
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import type * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import { BrowserInfo, CONFIG_PATHS } from '../constants';
+
+/**
+ * Type definition for the browser profiles.
+ */
+export type BrowserProfiles = Pick<BrowserInfo, 'label' | 'command'> & {
+  /**
+   * List of profile names found in the configuration file.
+   */
+  profiles: string[];
+};
 
 /**
  * Get Firefox profiles
  * @returns {Array} - Array of Firefox profiles
  */
-export function getFirefoxProfiles({ title }: { title: string }): string[] {
-  let filePaths = [
-    GLib.get_home_dir() + '/.mozilla/firefox/profiles.ini',
-    GLib.get_home_dir() + '/snap/firefox/common/.mozilla/firefox/profiles.ini' // Edge case for Snap installation
-  ];
+export function getFirefoxProfiles({ title, notify }: {
+  title: string;
+  notify: typeof Main.notify;
+}): Array<BrowserProfiles> {
+  // Check if the configuration files exist
+  const browsers = CONFIG_PATHS.filter(browser => GLib.file_test(browser.path, GLib.FileTest.EXISTS));
 
-  let filePath = filePaths.find(path => GLib.file_test(path, GLib.FileTest.EXISTS));
-
-  if (!filePath) {
-    Main.notify(title, 'Could not find the profiles.ini file.');
+  // If no configuration files exist, show a notification
+  if (browsers.length === 0) {
+    notify(title, 'No supported browsers found.');
     return [];
   }
 
-  let fileContent = GLib.file_get_contents(filePath)[1];
+  // Check the availability of profiles by browser
+  return browsers.map(browser => <BrowserProfiles>{
+    ...browser,
+    profiles: getProfilesFromConfigFile(browser.path)
+  });
+}
+
+/**
+ * 
+ * @param title 
+ * @param path 
+ * @returns 
+ */
+function getProfilesFromConfigFile(path: string): string[] {
+  let fileContent = GLib.file_get_contents(path)[1];
   let content = fileContent.toString();
   let namePattern = /Name=(.*)/g;
   let profiles: string[] = [];
