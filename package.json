@@ -20,8 +20,8 @@
     "build": "node build.js"
   },
   "dependencies": {
-    "@girs/gjs": "4.0.0-beta.18",
-    "@girs/gnome-shell": "^47.0.0"
+    "@girs/gjs": "^4.0.0-beta.23",
+    "@girs/gnome-shell": "^48.0.2"
   },
   "devDependencies": {
     "esbuild": "^0.25.1",

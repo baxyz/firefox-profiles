@@ -1,10 +1,11 @@
 {
   "name": "Firefox Profiles",
-  "description": "This GNOME extension makes it easy to launch Firefox with a specific profile from the indicator menu..\nThis extension is not affiliated, funded, or in any way associated with Mozilla and Firefox.",
+  "description": "Easily launch Firefox with your favorite profile right from the indicator menu!\nWhether you're using the classic setup, a snap install, or even Zen browser, we've got you covered.\nNote: This extension is not sponsored, endorsed, or affiliated with Mozilla, Firefox or Zen; it's just pure profile-switching fun!",
   "uuid": "firefox-profiles@arnaud.work",
   "url": "https://github.com/baxyz/firefox-profiles",
   "shell-version": [
     "46",
-    "47"
+    "47",
+    "48"
   ]
 }
