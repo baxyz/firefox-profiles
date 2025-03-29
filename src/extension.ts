@@ -1,8 +1,9 @@
 import GObject from 'gi://GObject';
+import St from 'gi://St';
 import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import { Button } from 'resource:///org/gnome/shell/ui/panelMenu.js';
-import { createMenu, getFirefoxProfiles } from './helper';
+import { fillMenu, getFirefoxProfiles } from './helper';
 
 
 // -- Extension ----------------------------------------------------------------
@@ -41,8 +42,15 @@ class FirefoxProfilesIndicator extends Button {
     // Get Profiles
     const profiles = getFirefoxProfiles({ title, notify: Main.notify });
 
+    // Add the Firefox icon
+    this.add_child(new St.Icon({
+      icon_name: 'firefox-symbolic', // white version of the Firefox icon
+      style_class: 'system-status-icon',
+    }));
+
     // Create the menu
-    createMenu({ title, menu: this.menu, profiles, notify: Main.notify });
+    // (same method can be used to refresh the menu)
+    fillMenu({ title, menu: this.menu, profiles, notify: Main.notify });
   }
 }
 
