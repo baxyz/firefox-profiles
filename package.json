@@ -1,28 +1,32 @@
 {
-    "name": "firefox-profiles",
-    "version": "1.0.3",
-    "description": "This GNOME extension streamlines launching Firefox profiles from the indicator menu.",
-    "type": "module",
-    "private": true,
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/baxyz/firefox-profiles.git"
-    },
-    "author": "baxyz <berenger@arnaud.work>",
-    "license": "AGPL-3.0-only",
-    "bugs": {
-        "url": "https://github.com/baxyz/firefox-profiles/issues"
-    },
-    "homepage": "https://github.com/baxyz/firefox-profiles#readme",
-    "sideEffects": false,
-    "packageManager": "pnpm@9.12.3",
-    "devDependencies": {
-        "eslint": "^9.14.0",
-        "eslint-plugin-jsdoc": "^50.4.3",
-        "typescript": "^5.6.3"
-    },
-    "dependencies": {
-        "@girs/gjs": "4.0.0-beta.18",
-        "@girs/gnome-shell": "^47.0.0"
-    }
+  "name": "firefox-profiles",
+  "version": "1.0.3",
+  "description": "This GNOME extension streamlines launching Firefox profiles from the indicator menu.",
+  "type": "module",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baxyz/firefox-profiles.git"
+  },
+  "author": "baxyz <berenger@arnaud.work>",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/baxyz/firefox-profiles/issues"
+  },
+  "homepage": "https://github.com/baxyz/firefox-profiles#readme",
+  "sideEffects": false,
+  "packageManager": "pnpm@9.12.3",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "@girs/gjs": "4.0.0-beta.18",
+    "@girs/gnome-shell": "^47.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.1",
+    "eslint": "^9.14.0",
+    "eslint-plugin-jsdoc": "^50.4.3",
+    "typescript": "^5.6.3"
+  }
 }

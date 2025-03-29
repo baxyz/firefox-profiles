@@ -9,7 +9,7 @@ node_modules: package.json
 	pnpm install
 
 dist/extension.js: node_modules
-	pnpm exec tsc
+	pnpm build
 
 $(NAME).zip: dist/extension.js
 	@cp metadata.json dist/

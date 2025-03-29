@@ -1,8 +1,8 @@
 import GObject from 'gi://GObject';
-import { Extension, gettext as _ } from 'resource:///org/gnome/shell/extensions/extension.js';
-import { Button } from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import { createMenu, getFirefoxProfiles, openFirefoxProfile } from 'helper';
+import { Button } from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import { createMenu, getFirefoxProfiles } from './helper';
 
 
 // -- Extension ----------------------------------------------------------------
