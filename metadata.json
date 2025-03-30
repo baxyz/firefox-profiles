@@ -1,6 +1,6 @@
 {
   "name": "Firefox Profiles",
-  "description": "Easily launch Firefox with your favorite profile right from the indicator menu!\nWhether you're using the classic setup, a snap install, or even Zen browser, we've got you covered.\nNote: This extension is not sponsored, endorsed, or affiliated with Mozilla, Firefox or Zen; it's just pure profile-switching fun!",
+  "description": "Easily launch Firefox with your favorite profile right from the indicator menu!\nSupports Firefox (regular, snap, and flatpak), Floorp (flatpak), and Zen (flatpak).\nNote: This extension is not sponsored, endorsed, or affiliated with Mozilla, Firefox, Floorp, or Zen; it's just pure profile-switching convenience!",
   "uuid": "firefox-profiles@arnaud.work",
   "url": "https://github.com/baxyz/firefox-profiles",
   "shell-version": [

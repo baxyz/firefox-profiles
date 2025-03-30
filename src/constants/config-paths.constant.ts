@@ -44,6 +44,16 @@ export const CONFIG_PATHS: Array<BrowserInfo> = [
     command: 'snap run firefox'
   },
   {
+    label: 'Firefox (flatpak)',
+    path: HOME_DIR + '/.var/app/org.mozilla.firefox/.mozilla/firefox/profiles.ini',
+    command: 'flatpak run org.mozilla.firefox'
+  },
+  {
+    label: 'Floorp (flatpak)',
+    path: HOME_DIR + '/.var/app/one.ablaze.floorp/.floorp/profiles.ini',
+    command: 'flatpak run one.ablaze.floorp'
+  },
+  {
     label: 'Zen (flatpak)',
     path: HOME_DIR + '/.var/app/app.zen_browser.zen/.zen/profiles.ini',
     command: 'flatpak run app.zen_browser.zen'

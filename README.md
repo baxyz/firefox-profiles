@@ -1,6 +1,10 @@
 # Firefox Profiles
 
-This GNOME extension simplifies the launching of Firefox profiles from the indicator menu.
+Easily launch Firefox with your favorite profile right from the indicator menu!
+
+Supports Firefox (regular, snap, and flatpak), Floorp (flatpak), and Zen (flatpak).
+
+*Note: This extension is not sponsored, endorsed, or affiliated with Mozilla, Firefox, Floorp, or Zen; it's just pure profile-switching convenience!*
 
 ## Description
 
