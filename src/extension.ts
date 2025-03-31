@@ -14,7 +14,7 @@ import { fillMenu, getFirefoxProfiles } from './helper';
  * @see FirefoxProfilesIndicator
  */
 export default class FirefoxProfilesExtension extends Extension {
-  private _indicator?: FirefoxProfilesIndicator;
+  private _indicator: FirefoxProfilesIndicator | null = null;
 
   enable() {
     this._indicator = new GFirefoxProfilesIndicator(this.metadata.name);
@@ -24,7 +24,7 @@ export default class FirefoxProfilesExtension extends Extension {
   disable() {
     if (this._indicator) {
       this._indicator.destroy();
-      this._indicator = undefined;
+      this._indicator = null;
     }
   }
 }
