@@ -20,13 +20,13 @@
     "build": "node build.js"
   },
   "dependencies": {
-    "@girs/gjs": "^4.0.0-beta.23",
-    "@girs/gnome-shell": "^48.0.2"
+    "@girs/gjs": "4.0.0-beta.38",
+    "@girs/gnome-shell": "^49.0.3"
   },
   "devDependencies": {
-    "esbuild": "^0.25.1",
-    "eslint": "^9.14.0",
-    "eslint-plugin-jsdoc": "^50.4.3",
-    "typescript": "^5.6.3"
+    "esbuild": "^0.25.12",
+    "eslint": "^9.39.0",
+    "eslint-plugin-jsdoc": "^61.1.11",
+    "typescript": "^5.9.3"
   }
 }
