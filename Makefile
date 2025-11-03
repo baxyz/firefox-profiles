@@ -18,6 +18,7 @@ $(NAME).zip: dist/extension.js
 pack: $(NAME).zip
 
 install: $(NAME).zip
+	@mkdir -p ~/.local/share/gnome-shell/extensions
 	@touch ~/.local/share/gnome-shell/extensions/$(NAME)@$(DOMAIN)
 	@rm -rf ~/.local/share/gnome-shell/extensions/$(NAME)@$(DOMAIN)
 	@mv dist ~/.local/share/gnome-shell/extensions/$(NAME)@$(DOMAIN)
