@@ -1,14 +1,19 @@
-import GLib from 'gi://GLib';
-import type * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import GLib from "gi://GLib";
+import type * as Main from "resource:///org/gnome/shell/ui/main.js";
 
 /**
  * Open Firefox with a specific profile.
- * 
+ *
  * It will call `firefox -P <profile> -no-remote`.
- * 
+ *
  * @param {string} profile name of the profile
  */
-export function openFirefoxProfile({ command, profile, title, notify }: {
+export function openFirefoxProfile({
+  command,
+  profile,
+  title,
+  notify,
+}: {
   command: string;
   profile: string;
   title: string;
