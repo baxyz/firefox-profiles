@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
   "rules": {
     "jsdoc/require-jsdoc": "warn",
     "jsdoc/require-param": "warn",
