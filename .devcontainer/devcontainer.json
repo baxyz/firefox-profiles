@@ -1,0 +1,71 @@
+{
+  "name": "Firefox Profiles Extension",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:latest",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/baxyz/devcontainer-features/git-absorb:0": {},
+    "ghcr.io/joshuanianji/devcontainer-features/mount-pnpm-store:1": {},
+    "ghcr.io/baxyz/devcontainer-features/shell-history-per-project:0.0.5": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // AI Assistant
+        "github.copilot",
+        "github.copilot-chat",
+        // Git & Version Control
+        "donjayamanne.githistory",
+        "gxl.git-graph-3",
+        "github.vscode-pull-request-github",
+        "github.vscode-github-actions",
+        "vivaxy.vscode-conventional-commits",
+        "eamodio.gitlens",
+        // Editor Enhancements
+        "cardinal90.multi-cursor-case-preserve",
+        "moshfeu.compare-folders",
+        "ms-vscode.live-server",
+        "xyz.local-history",
+        // Code Quality & Linting
+        "vitest.explorer",
+        "oxc.oxc-vscode",
+        "streetsidesoftware.code-spell-checker",
+        // TypeScript & JavaScript
+        "ms-vscode.vscode-typescript-next",
+        "guilhermetheodoro.typescript-indexing",
+        "christian-kohler.npm-intellisense",
+        // Markdown and Documentation
+        "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint",
+        "bierner.markdown-mermaid",
+        // File Format Support
+        "redhat.vscode-yaml",
+        "redhat.vscode-xml",
+        "ms-vscode.vscode-json",
+        "adamraichu.zip-viewer",
+        "mechatroner.rainbow-csv",
+        "ms-vscode.makefile-tools",
+        // License Header Management
+        "psioniq.psi-header"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": "explicit",
+          "source.organizeImports": "explicit"
+        },
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.enablePromptUseWorkspaceTsdk": true
+      }
+    }
+  },
+  "containerEnv": {
+    "SSH_AUTH_SOCK": "${localEnv:SSH_AUTH_SOCK}",
+    "GPG_TTY": "/dev/pts/0"
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached",
+    "source=${localEnv:HOME}/.gnupg,target=/home/vscode/.gnupg,type=bind,consistency=cached"
+  ],
+  "postCreateCommand": "CI=true pnpm install"
+}
