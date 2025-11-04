@@ -24,7 +24,7 @@ export function openFirefoxProfile({ command, profile, title, notify }: {
     }
   } catch (e: unknown) {
     const message = `An error occurred while launching Firefox with the "${profile}" profile.`;
-    logError(e as Object, `[${title}] ${message}`);
+    logError(e as object, `[${title}] ${message}`);
     notify(title, message);
   }
 }
