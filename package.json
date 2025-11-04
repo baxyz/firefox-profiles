@@ -15,7 +15,7 @@
   },
   "homepage": "https://github.com/baxyz/firefox-profiles#readme",
   "sideEffects": false,
-  "packageManager": "pnpm@9.12.3",
+  "packageManager": "pnpm@10.20.0",
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
