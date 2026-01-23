@@ -6,7 +6,10 @@ import type {
 import {
   PopupMenuItem,
   PopupSeparatorMenuItem,
+  PopupBaseMenuItem,
 } from "resource:///org/gnome/shell/ui/popupMenu.js";
+import St from "gi://St";
+import Clutter from "gi://Clutter";
 import type { BrowserProfiles } from "./digging.helper";
 import { openFirefoxProfile } from "./runner.helper";
 
@@ -36,28 +39,90 @@ export function fillMenu({
 
   // Populate the menu with profiles
   if ("addMenuItem" in menu) {
-
-    // No profiles found
-    if (profiles.length === 0) {
-      menu.addMenuItem(new PopupMenuItem("No profiles found", { reactive: false }));
-    } else {
-      profiles.forEach((browser) => {
-        const section = new PopupSeparatorMenuItem(browser.label);
-        menu.addMenuItem(section);
-
-        browser.profiles.forEach((profile) => {
-          const item = new PopupMenuItem(profile);
-          item.connect("activate", () =>
-            openFirefoxProfile({
-              command: browser.command,
-              profile,
-              title,
-              notify,
-            }),
-          );
-          menu.addMenuItem(item);
-        });
-      });
-    }
+    fillProfilesInMenu(menu, profiles, title, notify);
+    addActionsToMenu(menu);
   }
+}
+
+/**
+ * Fill the menu with browser profiles sections.
+ *
+ * @param menu - The popup menu to fill.
+ * @param profiles - Array of browser profiles.
+ * @param title - The extension title (for notifications).
+ * @param notify - GNOME Shell notification function.
+ */
+function fillProfilesInMenu(
+  menu: PopupMenu | PopupDummyMenu,
+  profiles: Array<BrowserProfiles>,
+  title: string,
+  notify: typeof Main.notify,
+): void {
+  if (!("addMenuItem" in menu)) {
+    return;
+  }
+
+  // No profiles found
+  if (profiles.length === 0) {
+    menu.addMenuItem(new PopupMenuItem("No profiles found", { reactive: false }));
+    return;
+  }
+
+  profiles.forEach((browser) => {
+    const section = new PopupSeparatorMenuItem(browser.label);
+    menu.addMenuItem(section);
+
+    browser.profiles.forEach((profile) => {
+      const item = new PopupMenuItem(profile);
+      item.connect("activate", () =>
+        openFirefoxProfile({
+          command: browser.command,
+          profile,
+          title,
+          notify,
+        }),
+      );
+      menu.addMenuItem(item);
+    });
+  });
+}
+
+/**
+ * Add action buttons (icons) at the end of the menu.
+ *
+ * @param menu - The popup menu to add actions to.
+ */
+function addActionsToMenu(menu: PopupMenu | PopupDummyMenu): void {
+  if (!("addMenuItem" in menu)) {
+    return;
+  }
+
+  // Create a box for action icons
+  const iconBox = new St.BoxLayout({
+    vertical: false,
+    x_expand: true,
+    x_align: Clutter.ActorAlign.END,
+  });
+
+  // Refresh button
+  const refreshButton = new St.Button({
+    style_class: "system-menu-action",
+    child: new St.Icon({
+      icon_name: "view-refresh-symbolic",
+      icon_size: 16,
+    }),
+  });
+
+  refreshButton.connect("clicked", () => {
+    // TODO: Trigger menu refresh (reload profiles)
+  });
+
+  iconBox.add_child(refreshButton);
+
+  // Create menu item for actions
+  const actionItem = new PopupBaseMenuItem();
+  if ("actor" in actionItem) {
+    actionItem.actor.add_child(iconBox);
+  }
+  menu.addMenuItem(actionItem);
 }
