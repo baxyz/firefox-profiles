@@ -26,11 +26,13 @@ export function fillMenu({
   menu,
   profiles,
   notify,
+  onRefresh,
 }: {
   title: string;
   menu: PopupMenu | PopupDummyMenu;
   profiles: Array<BrowserProfiles>;
   notify: typeof Main.notify;
+  onRefresh?: () => void;
 }): void {
   // Clear existing menu items
   if ("removeAll" in menu) {
@@ -40,7 +42,7 @@ export function fillMenu({
   // Populate the menu with profiles
   if ("addMenuItem" in menu) {
     fillProfilesInMenu(menu, profiles, title, notify);
-    addActionsToMenu(menu);
+    addActionsToMenu(menu, onRefresh);
   }
 }
 
@@ -91,8 +93,12 @@ function fillProfilesInMenu(
  * Add action buttons (icons) at the end of the menu.
  *
  * @param menu - The popup menu to add actions to.
+ * @param onRefresh - Optional callback to trigger when refresh button is clicked.
  */
-function addActionsToMenu(menu: PopupMenu | PopupDummyMenu): void {
+function addActionsToMenu(
+  menu: PopupMenu | PopupDummyMenu,
+  onRefresh?: () => void,
+): void {
   if (!("addMenuItem" in menu)) {
     return;
   }
@@ -104,20 +110,30 @@ function addActionsToMenu(menu: PopupMenu | PopupDummyMenu): void {
     x_align: Clutter.ActorAlign.END,
   });
 
-  // Refresh button
-  const refreshButton = new St.Button({
-    style_class: "system-menu-action",
-    child: new St.Icon({
-      icon_name: "view-refresh-symbolic",
-      icon_size: 16,
-    }),
-  });
+  let hasActions = false;
 
-  refreshButton.connect("clicked", () => {
-    // TODO: Trigger menu refresh (reload profiles)
-  });
+  // Add refresh button only if onRefresh is provided
+  if (onRefresh) {
+    const refreshButton = new St.Button({
+      style_class: "system-menu-action",
+      child: new St.Icon({
+        icon_name: "view-refresh-symbolic",
+        icon_size: 16,
+      }),
+    });
 
-  iconBox.add_child(refreshButton);
+    refreshButton.connect("clicked", () => {
+      onRefresh();
+    });
+
+    iconBox.add_child(refreshButton);
+    hasActions = true;
+  }
+
+  // If no actions to show, do not add an empty item
+  if (!hasActions) {
+    return;
+  }
 
   // Create menu item for actions
   const actionItem = new PopupBaseMenuItem();

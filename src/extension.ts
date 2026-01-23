@@ -34,12 +34,13 @@ export default class FirefoxProfilesExtension extends Extension {
  * Indicator for Firefox profiles
  */
 class FirefoxProfilesIndicator extends Button {
+  private title: string;
+
   constructor(title: string) {
     // 0.0 is the value of menuAlignment
     super(0.0, title);
 
-    // Get Profiles
-    const profiles = getFirefoxProfiles({ title, notify: Main.notify });
+    this.title = title;
 
     // Add the Firefox icon
     this.add_child(
@@ -49,9 +50,27 @@ class FirefoxProfilesIndicator extends Button {
       }),
     );
 
-    // Create the menu
-    // (same method can be used to refresh the menu)
-    fillMenu({ title, menu: this.menu, profiles, notify: Main.notify });
+    // Load and display profiles
+    this.refreshProfiles();
+  }
+
+  /**
+   * Refresh the profiles list and update the menu.
+   * This is called on initial load and when the refresh button is clicked.
+   */
+  private refreshProfiles(): void {
+    const profiles = getFirefoxProfiles({
+      title: this.title,
+      notify: Main.notify,
+    });
+
+    fillMenu({
+      title: this.title,
+      menu: this.menu,
+      profiles,
+      notify: Main.notify,
+      onRefresh: () => this.refreshProfiles(),
+    });
   }
 }
 
