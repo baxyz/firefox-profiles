@@ -36,22 +36,28 @@ export function fillMenu({
 
   // Populate the menu with profiles
   if ("addMenuItem" in menu) {
-    profiles.forEach((browser) => {
-      const section = new PopupSeparatorMenuItem(browser.label);
-      menu.addMenuItem(section);
 
-      browser.profiles.forEach((profile) => {
-        const item = new PopupMenuItem(profile);
-        item.connect("activate", () =>
-          openFirefoxProfile({
-            command: browser.command,
-            profile,
-            title,
-            notify,
-          }),
-        );
-        menu.addMenuItem(item);
+    // No profiles found
+    if (profiles.length === 0) {
+      menu.addMenuItem(new PopupMenuItem("No profiles found", { reactive: false }));
+    } else {
+      profiles.forEach((browser) => {
+        const section = new PopupSeparatorMenuItem(browser.label);
+        menu.addMenuItem(section);
+
+        browser.profiles.forEach((profile) => {
+          const item = new PopupMenuItem(profile);
+          item.connect("activate", () =>
+            openFirefoxProfile({
+              command: browser.command,
+              profile,
+              title,
+              notify,
+            }),
+          );
+          menu.addMenuItem(item);
+        });
       });
-    });
+    }
   }
 }
