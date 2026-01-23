@@ -42,12 +42,12 @@ export const CONFIG_PATHS: Array<BrowserInfo> = [
   // === Firefox (native installations) ===
   {
     label: "Firefox",
-    path: HOME_DIR + "/.mozilla/firefox/profiles.ini",
+    path: XDG_CONFIG_HOME + "/firefox/profiles.ini",
     command: "firefox",
   },
   {
-    label: "Firefox (XDG)",
-    path: XDG_CONFIG_HOME + "/firefox/profiles.ini",
+    label: "Firefox (classic)",
+    path: HOME_DIR + "/.mozilla/firefox/profiles.ini",
     command: "firefox",
   },
 
@@ -69,30 +69,35 @@ export const CONFIG_PATHS: Array<BrowserInfo> = [
   // === Waterfox (Firefox fork) ===
   {
     label: "Waterfox",
-    path: HOME_DIR + "/.waterfox/profiles.ini",
+    path: XDG_CONFIG_HOME + "/waterfox/profiles.ini",
     command: "waterfox",
   },
   {
-    label: "Waterfox (XDG)",
-    path: XDG_CONFIG_HOME + "/waterfox/profiles.ini",
+    label: "Waterfox (classic)",
+    path: HOME_DIR + "/.waterfox/profiles.ini",
     command: "waterfox",
   },
 
   // === LibreWolf (Privacy-focused Firefox) ===
   {
     label: "LibreWolf",
-    path: HOME_DIR + "/.librewolf/profiles.ini",
+    path: XDG_CONFIG_HOME + "/librewolf/profiles.ini",
     command: "librewolf",
   },
   {
-    label: "LibreWolf (XDG)",
-    path: XDG_CONFIG_HOME + "/librewolf/profiles.ini",
+    label: "LibreWolf (classic)",
+    path: HOME_DIR + "/.librewolf/profiles.ini",
     command: "librewolf",
   },
 
   // === Floorp (Firefox fork) ===
   {
     label: "Floorp",
+    path: XDG_CONFIG_HOME + "/floorp/profiles.ini",
+    command: "floorp",
+  },
+  {
+    label: "Floorp (classic)",
     path: HOME_DIR + "/.floorp/profiles.ini",
     command: "floorp",
   },
@@ -105,6 +110,11 @@ export const CONFIG_PATHS: Array<BrowserInfo> = [
   // === Zen Browser (Gecko-based) ===
   {
     label: "Zen",
+    path: XDG_CONFIG_HOME + "/zen/profiles.ini",
+    command: "zen-browser",
+  },
+  {
+    label: "Zen (classic)",
     path: HOME_DIR + "/.zen/profiles.ini",
     command: "zen-browser",
   },
