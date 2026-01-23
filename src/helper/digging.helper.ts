@@ -1,5 +1,4 @@
 import GLib from "gi://GLib";
-import type * as Main from "resource:///org/gnome/shell/ui/main.js";
 import { BrowserInfo, CONFIG_PATHS } from "../constants";
 
 /**
@@ -16,21 +15,14 @@ export type BrowserProfiles = Pick<BrowserInfo, "label" | "command"> & {
  * Get Firefox profiles
  * @returns {Array} - Array of Firefox profiles
  */
-export function getFirefoxProfiles({
-  title,
-  notify,
-}: {
-  title: string;
-  notify: typeof Main.notify;
-}): Array<BrowserProfiles> {
+export function getFirefoxProfiles(): Array<BrowserProfiles> {
   // Check if the configuration files exist
   const browsers = CONFIG_PATHS.filter((browser) =>
     GLib.file_test(browser.path, GLib.FileTest.EXISTS),
   );
 
-  // If no configuration files exist, show a notification
+  // No configuration files exist
   if (browsers.length === 0) {
-    notify(title, "No supported browsers found.");
     return [];
   }
 
