@@ -66,7 +66,6 @@ class FirefoxProfilesIndicator extends Button {
       menu: this.menu,
       profiles,
       notify: Main.notify,
-      onRefresh: () => this.refreshProfiles(),
     });
   }
 }
