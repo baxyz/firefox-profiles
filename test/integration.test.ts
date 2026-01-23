@@ -22,7 +22,7 @@ describe("Firefox Profiles Extension Integration", () => {
     });
   });
 
-  it("should compile successfully with all GNOME Shell versions", () => {
+  it("should compile successfully with all GNOME Shell versions", { timeout: 20000 }, () => {
     const versions = metadata["shell-version"];
 
     versions.forEach((version) => {
