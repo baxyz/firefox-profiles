@@ -9,15 +9,9 @@
     "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "src/*"
-      ]
+      "*": ["src/*"]
     },
-    "lib": [
-      "ESNext"
-    ]
+    "lib": ["ESNext"]
   },
-  "include": [
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }

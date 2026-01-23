@@ -4,7 +4,7 @@ Easily launch Firefox with your favorite profile right from the indicator menu!
 
 Supports Firefox (regular, snap, and flatpak), Floorp (flatpak), and Zen (flatpak).
 
-*Note: This extension is not sponsored, endorsed, or affiliated with Mozilla, Firefox, Floorp, or Zen; it's just pure profile-switching convenience!*
+_Note: This extension is not sponsored, endorsed, or affiliated with Mozilla, Firefox, Floorp, or Zen; it's just pure profile-switching convenience!_
 
 ## Description
 
@@ -51,13 +51,14 @@ Start a nested GNOME Shell session:
 dbus-run-session -- gnome-shell --nested --wayland
 ```
 
-Open a terminal inside the new session and enable the extension    
+Open a terminal inside the new session and enable the extension
 
 ```bash
 gnome-extensions enable firefox-profiles@arnaud.work
 ```
 
 And to disable it:
+
 ```bash
 gnome-extensions disable firefox-profiles@arnaud.work
 ```
