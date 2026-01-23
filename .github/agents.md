@@ -20,6 +20,7 @@ This document defines the commit conventions and agent guidelines for this repos
   - `revert`: revert a previous commit
 
 Examples:
+
 - `feat(gnome-shell): ✨ support GNOME Shell 50`
 - `fix(browser-detect): 🐛 handle flatpak path edge-case`
 - `docs(agents): 🧾 add agents guidelines`
@@ -68,6 +69,7 @@ git push
 ## GNOME Shell Compatibility Updates
 
 When adding support for a new GNOME Shell major version:
+
 - Update `metadata.json` by adding the new version to `shell-version`.
 - Add the corresponding dev alias in `package.json` (e.g., `"@girs/gnome-shell-50": "npm:@girs/gnome-shell@50"`).
 - Run `pnpm test` to verify compilation succeeds with all versions (including the new one).
