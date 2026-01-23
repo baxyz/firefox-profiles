@@ -42,7 +42,7 @@ export const CONFIG_PATHS: Array<BrowserInfo> = [
   // === Firefox (native installations) ===
   {
     label: "Firefox",
-    path: XDG_CONFIG_HOME + "/firefox/profiles.ini",
+    path: XDG_CONFIG_HOME + "/mozilla/firefox/profiles.ini",
     command: "firefox",
   },
   {
@@ -54,8 +54,7 @@ export const CONFIG_PATHS: Array<BrowserInfo> = [
   // === Firefox (flatpak) ===
   {
     label: "Firefox (flatpak)",
-    path:
-      HOME_DIR + "/.var/app/org.mozilla.firefox/.mozilla/firefox/profiles.ini",
+    path: HOME_DIR + "/.var/app/org.mozilla.firefox/.mozilla/firefox/profiles.ini",
     command: "flatpak run org.mozilla.firefox",
   },
 
