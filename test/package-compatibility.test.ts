@@ -25,7 +25,7 @@ describe("GNOME Shell Package Compatibility", () => {
     expect(packageJson.devDependencies["@girs/gnome-shell"]).toBeDefined();
     expect(packageJson.devDependencies["@girs/gjs"]).toBeDefined();
 
-    // Check dev dependencies with version aliases for ALL versions (46-49)
+    // Check dev dependencies with version aliases for ALL versions (46-50)
     versions.forEach((version) => {
       expect(packageJson.devDependencies[`@girs/gnome-shell-${version}`]).toBeDefined();
     });
@@ -35,7 +35,7 @@ describe("GNOME Shell Package Compatibility", () => {
     const packageJsonPath = resolve(process.cwd(), "package.json");
     const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
 
-    // Check that aliases are configured for ALL versions (46-49)
+    // Check that aliases are configured for ALL versions (46-50)
     versions.forEach((version) => {
       expect(packageJson.devDependencies[`@girs/gnome-shell-${version}`]).toContain(
         `npm:@girs/gnome-shell@${version}`,
@@ -45,7 +45,7 @@ describe("GNOME Shell Package Compatibility", () => {
 
   it("should verify GNOME Shell versions compatibility", () => {
     versions.forEach((version) => {
-      expect(version).toMatch(/^4[6-9]$/);
+      expect(version).toMatch(/^(4[6-9]|50)$/);
       expect(parseInt(version)).toBeGreaterThanOrEqual(minVersion);
       expect(parseInt(version)).toBeLessThanOrEqual(maxVersion);
     });

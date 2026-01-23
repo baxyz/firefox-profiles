@@ -32,6 +32,7 @@
     "@girs/gnome-shell-47": "npm:@girs/gnome-shell@47",
     "@girs/gnome-shell-48": "npm:@girs/gnome-shell@48",
     "@girs/gnome-shell-49": "npm:@girs/gnome-shell@49",
+    "@girs/gnome-shell-50": "npm:@girs/gnome-shell@50",
     "@types/node": "^25.0.10",
     "@vitest/ui": "^4.0.18",
     "esbuild": "^0.27.2",
