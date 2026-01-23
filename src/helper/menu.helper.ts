@@ -1,15 +1,6 @@
 import type * as Main from "resource:///org/gnome/shell/ui/main.js";
-import type {
-  PopupDummyMenu,
-  PopupMenu,
-} from "resource:///org/gnome/shell/ui/popupMenu.js";
-import {
-  PopupMenuItem,
-  PopupSeparatorMenuItem,
-  PopupBaseMenuItem,
-} from "resource:///org/gnome/shell/ui/popupMenu.js";
-import St from "gi://St";
-import Clutter from "gi://Clutter";
+import type { PopupDummyMenu, PopupMenu } from "resource:///org/gnome/shell/ui/popupMenu.js";
+import { PopupMenuItem, PopupSeparatorMenuItem } from "resource:///org/gnome/shell/ui/popupMenu.js";
 import type { BrowserProfiles } from "./digging.helper";
 import { openFirefoxProfile } from "./runner.helper";
 
@@ -26,13 +17,11 @@ export function fillMenu({
   menu,
   profiles,
   notify,
-  onRefresh,
 }: {
   title: string;
   menu: PopupMenu | PopupDummyMenu;
   profiles: Array<BrowserProfiles>;
   notify: typeof Main.notify;
-  onRefresh?: () => void;
 }): void {
   // Clear existing menu items
   if ("removeAll" in menu) {
@@ -42,7 +31,6 @@ export function fillMenu({
   // Populate the menu with profiles
   if ("addMenuItem" in menu) {
     fillProfilesInMenu(menu, profiles, title, notify);
-    addActionsToMenu(menu, onRefresh);
   }
 }
 
@@ -87,58 +75,4 @@ function fillProfilesInMenu(
       menu.addMenuItem(item);
     });
   });
-}
-
-/**
- * Add action buttons (icons) at the end of the menu.
- *
- * @param menu - The popup menu to add actions to.
- * @param onRefresh - Optional callback to trigger when refresh button is clicked.
- */
-function addActionsToMenu(
-  menu: PopupMenu | PopupDummyMenu,
-  onRefresh?: () => void,
-): void {
-  if (!("addMenuItem" in menu)) {
-    return;
-  }
-
-  // Create a box for action icons
-  const iconBox = new St.BoxLayout({
-    vertical: false,
-    x_expand: true,
-    x_align: Clutter.ActorAlign.END,
-  });
-
-  let hasActions = false;
-
-  // Add refresh button only if onRefresh is provided
-  if (onRefresh) {
-    const refreshButton = new St.Button({
-      style_class: "system-menu-action",
-      child: new St.Icon({
-        icon_name: "view-refresh-symbolic",
-        icon_size: 16,
-      }),
-    });
-
-    refreshButton.connect("clicked", () => {
-      onRefresh();
-    });
-
-    iconBox.add_child(refreshButton);
-    hasActions = true;
-  }
-
-  // If no actions to show, do not add an empty item
-  if (!hasActions) {
-    return;
-  }
-
-  // Create menu item for actions
-  const actionItem = new PopupBaseMenuItem();
-  if ("actor" in actionItem) {
-    actionItem.actor.add_child(iconBox);
-  }
-  menu.addMenuItem(actionItem);
 }
