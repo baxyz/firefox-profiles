@@ -3,9 +3,9 @@
   "image": "mcr.microsoft.com/devcontainers/typescript-node:latest",
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/baxyz/devcontainer-features/git-absorb:0": {},
-    "ghcr.io/joshuanianji/devcontainer-features/mount-pnpm-store:1": {},
-    "ghcr.io/baxyz/devcontainer-features/shell-history-per-project:0.0.5": {}
+    "ghcr.io/helpers4/devcontainer/git-absorb:1": {},
+    "ghcr.io/helpers4/devcontainer/local-mounts:1": {},
+    "ghcr.io/helpers4/devcontainer/shell-history-per-project:1": {}
   },
   "customizations": {
     "vscode": {
@@ -58,11 +58,6 @@
     "SSH_AUTH_SOCK": "${localEnv:SSH_AUTH_SOCK}",
     "GPG_TTY": "/dev/pts/0"
   },
-  "mounts": [
-    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached",
-    "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached",
-    "source=${localEnv:HOME}/.gnupg,target=/home/vscode/.gnupg,type=bind,consistency=cached"
-  ],
   "forwardPorts": [51204],
   "portsAttributes": {
     "51204": {
