@@ -61,15 +61,18 @@ git push
 - Branching: use feature branches; open PRs to `main` with clear scope and conventional commit-style titles.
 - Lint/Format: run `pnpm run lint` and `pnpm run format` (or `format:fix`) before committing.
 - Tests: run `pnpm test` locally; CI may run quality checks.
+  - `test/package-compatibility.test.ts`: verifies that all GNOME Shell versions are properly aliased in `package.json` and configuration is correct.
+  - `test/integration.test.ts`: verifies code compiles successfully with all GNOME Shell versions by running TypeScript compiler on each version alias. This ensures typing and build compatibility across all supported versions.
 - Build: `pnpm build` produces `dist/extension.js` for packaging.
 
 ## GNOME Shell Compatibility Updates
 
 When adding support for a new GNOME Shell major version:
 - Update `metadata.json` by adding the new version to `shell-version`.
-- If required, bump `@girs/gnome-shell` to the corresponding version and add the dev alias (e.g., `@girs/gnome-shell-50`: `npm:@girs/gnome-shell@50`).
+- Add the corresponding dev alias in `package.json` (e.g., `"@girs/gnome-shell-50": "npm:@girs/gnome-shell@50"`).
+- Run `pnpm test` to verify compilation succeeds with all versions (including the new one).
 - Verify APIs remain stable across versions and adjust code if needed.
-- Test in a nested Wayland session and enable/disable the extension to validate behavior.
+- Test in a nested Wayland session and enable/disable the extension to validate runtime behavior.
 
 ## Logging and Errors
 
