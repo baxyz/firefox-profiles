@@ -3,6 +3,9 @@ import GLib from "gi://GLib";
 // Define a constant for the home directory
 const HOME_DIR = GLib.get_home_dir();
 
+// XDG Base Directory Specification support
+const XDG_CONFIG_HOME = GLib.getenv("XDG_CONFIG_HOME") || HOME_DIR + "/.config";
+
 /**
  * Type definition for the configuration paths.
  */
@@ -31,32 +34,97 @@ export type BrowserInfo = {
  * List of configuration paths for different browsers.
  * Each object contains the title of the browser, the path to its configuration file,
  * and the command to run it.
+ *
+ * The paths are checked in order, so the most specific paths should come first.
+ * Supports standard XDG Base Directory locations since Firefox 147.
  */
 export const CONFIG_PATHS: Array<BrowserInfo> = [
+  // === Firefox (native installations) ===
   {
     label: "Firefox",
     path: HOME_DIR + "/.mozilla/firefox/profiles.ini",
     command: "firefox",
   },
   {
-    label: "Firefox (snap)",
-    path: HOME_DIR + "/snap/firefox/common/.mozilla/firefox/profiles.ini",
-    command: "snap run firefox",
+    label: "Firefox (XDG)",
+    path: XDG_CONFIG_HOME + "/firefox/profiles.ini",
+    command: "firefox",
   },
+
+  // === Firefox (flatpak) ===
   {
     label: "Firefox (flatpak)",
     path:
       HOME_DIR + "/.var/app/org.mozilla.firefox/.mozilla/firefox/profiles.ini",
     command: "flatpak run org.mozilla.firefox",
   },
+
+  // === Firefox (snap) ===
+  {
+    label: "Firefox (snap)",
+    path: HOME_DIR + "/snap/firefox/common/.mozilla/firefox/profiles.ini",
+    command: "snap run firefox",
+  },
+
+  // === Waterfox (Firefox fork) ===
+  {
+    label: "Waterfox",
+    path: HOME_DIR + "/.waterfox/profiles.ini",
+    command: "waterfox",
+  },
+  {
+    label: "Waterfox (XDG)",
+    path: XDG_CONFIG_HOME + "/waterfox/profiles.ini",
+    command: "waterfox",
+  },
+
+  // === LibreWolf (Privacy-focused Firefox) ===
+  {
+    label: "LibreWolf",
+    path: HOME_DIR + "/.librewolf/profiles.ini",
+    command: "librewolf",
+  },
+  {
+    label: "LibreWolf (XDG)",
+    path: XDG_CONFIG_HOME + "/librewolf/profiles.ini",
+    command: "librewolf",
+  },
+
+  // === Floorp (Firefox fork) ===
+  {
+    label: "Floorp",
+    path: HOME_DIR + "/.floorp/profiles.ini",
+    command: "floorp",
+  },
   {
     label: "Floorp (flatpak)",
     path: HOME_DIR + "/.var/app/one.ablaze.floorp/.floorp/profiles.ini",
     command: "flatpak run one.ablaze.floorp",
   },
+
+  // === Zen Browser (Gecko-based) ===
+  {
+    label: "Zen",
+    path: HOME_DIR + "/.zen/profiles.ini",
+    command: "zen-browser",
+  },
   {
     label: "Zen (flatpak)",
     path: HOME_DIR + "/.var/app/app.zen_browser.zen/.zen/profiles.ini",
     command: "flatpak run app.zen_browser.zen",
+  },
+
+  // === IceCat (GNU Firefox) ===
+  {
+    label: "IceCat",
+    path: HOME_DIR + "/.icecat/profiles.ini",
+    command: "icecat",
+  },
+
+  // === Palemoon (legacy fork) ===
+  {
+    label: "Palemoon",
+    path: HOME_DIR + "/.moonchild productions/pale moon/profiles.ini",
+    command: "palemoon",
   },
 ];
