@@ -1,5 +1,3 @@
 {
-    "recommendations": [
-        "ms-vscode.makefile-tools"
-    ]
+  "recommendations": ["ms-vscode.makefile-tools"]
 }
