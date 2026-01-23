@@ -1,21 +1,20 @@
 {
   "name": "firefox-profiles",
   "version": "4.0.0",
-  "description": "This GNOME extension streamlines launching Firefox profiles from the indicator menu.",
-  "type": "module",
   "private": true,
+  "description": "This GNOME extension streamlines launching Firefox profiles from the indicator menu.",
+  "homepage": "https://github.com/baxyz/firefox-profiles#readme",
+  "bugs": {
+    "url": "https://github.com/baxyz/firefox-profiles/issues"
+  },
+  "license": "AGPL-3.0-only",
+  "author": "baxyz <berenger@arnaud.work>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/baxyz/firefox-profiles.git"
   },
-  "author": "baxyz <berenger@arnaud.work>",
-  "license": "AGPL-3.0-only",
-  "bugs": {
-    "url": "https://github.com/baxyz/firefox-profiles/issues"
-  },
-  "homepage": "https://github.com/baxyz/firefox-profiles#readme",
+  "type": "module",
   "sideEffects": false,
-  "packageManager": "pnpm@10.20.0",
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
@@ -26,22 +25,21 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui"
   },
-  "dependencies": {
-    "@girs/gjs": "4.0.0-beta.38",
-    "@girs/gnome-shell": "^49.0.3"
-  },
   "devDependencies": {
+    "@girs/gjs": "4.0.0-beta.38",
+    "@girs/gnome-shell": "^49.1.0",
     "@girs/gnome-shell-46": "npm:@girs/gnome-shell@46",
     "@girs/gnome-shell-47": "npm:@girs/gnome-shell@47",
     "@girs/gnome-shell-48": "npm:@girs/gnome-shell@48",
     "@girs/gnome-shell-49": "npm:@girs/gnome-shell@49",
-    "@types/node": "^24.10.0",
-    "@vitest/ui": "^4.0.7",
-    "esbuild": "^0.25.12",
-    "oxfmt": "^0.9.0",
-    "oxlint": "^1.25.0",
+    "@types/node": "^25.0.10",
+    "@vitest/ui": "^4.0.18",
+    "esbuild": "^0.27.2",
+    "oxfmt": "^0.26.0",
+    "oxlint": "^1.41.0",
     "typescript": "^5.9.3",
-    "vite": "^7.1.12",
-    "vitest": "^4.0.7"
-  }
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
+  },
+  "packageManager": "pnpm@10.20.0"
 }

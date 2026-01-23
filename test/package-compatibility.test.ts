@@ -9,14 +9,8 @@ import { resolve } from "path";
 import metadata from "../metadata.json";
 
 const versions = metadata["shell-version"];
-const minVersion = versions.reduce(
-  (min, v) => Math.min(min, parseInt(v)),
-  Infinity,
-);
-const maxVersion = versions.reduce(
-  (max, v) => Math.max(max, parseInt(v)),
-  -Infinity,
-);
+const minVersion = versions.reduce((min, v) => Math.min(min, parseInt(v)), Infinity);
+const maxVersion = versions.reduce((max, v) => Math.max(max, parseInt(v)), -Infinity);
 
 describe("GNOME Shell Package Compatibility", () => {
   it("should have vitest properly configured", () => {
@@ -27,15 +21,13 @@ describe("GNOME Shell Package Compatibility", () => {
     const packageJsonPath = resolve(process.cwd(), "package.json");
     const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
 
-    // Check dependencies
-    expect(packageJson.dependencies["@girs/gnome-shell"]).toBeDefined();
-    expect(packageJson.dependencies["@girs/gjs"]).toBeDefined();
+    // Check devDependencies (nothing needed in dependencies for build)
+    expect(packageJson.devDependencies["@girs/gnome-shell"]).toBeDefined();
+    expect(packageJson.devDependencies["@girs/gjs"]).toBeDefined();
 
     // Check dev dependencies with version aliases for ALL versions (46-49)
     versions.forEach((version) => {
-      expect(
-        packageJson.devDependencies[`@girs/gnome-shell-${version}`],
-      ).toBeDefined();
+      expect(packageJson.devDependencies[`@girs/gnome-shell-${version}`]).toBeDefined();
     });
   });
 
@@ -45,9 +37,9 @@ describe("GNOME Shell Package Compatibility", () => {
 
     // Check that aliases are configured for ALL versions (46-49)
     versions.forEach((version) => {
-      expect(
-        packageJson.devDependencies[`@girs/gnome-shell-${version}`],
-      ).toContain(`npm:@girs/gnome-shell@${version}`);
+      expect(packageJson.devDependencies[`@girs/gnome-shell-${version}`]).toContain(
+        `npm:@girs/gnome-shell@${version}`,
+      );
     });
   });
 
