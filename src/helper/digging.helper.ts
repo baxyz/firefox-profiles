@@ -1,3 +1,4 @@
+import Gio from "gi://Gio";
 import GLib from "gi://GLib";
 import { BrowserInfo, CONFIG_PATHS } from "../constants";
 
@@ -15,43 +16,28 @@ export type BrowserProfiles = Pick<BrowserInfo, "label" | "command"> & {
  * Get Firefox profiles
  * @returns {Array} - Array of Firefox profiles
  */
-export function getFirefoxProfiles(): Array<BrowserProfiles> {
-  // Check if the configuration files exist
-  const browsers = CONFIG_PATHS.filter((browser) =>
-    GLib.file_test(browser.path, GLib.FileTest.EXISTS),
-  );
-
-  // No configuration files exist
-  if (browsers.length === 0) {
-    return [];
-  }
-
-  // Check the availability of profiles by browser
-  return browsers.map(
-    (browser) =>
-      <BrowserProfiles>{
-        ...browser,
-        profiles: getProfilesFromConfigFile(browser.path),
-      },
+export async function getFirefoxProfiles(): Promise<Array<BrowserProfiles>> {
+  return Promise.all(
+    CONFIG_PATHS.filter((browser) =>
+      GLib.file_test(browser.path, GLib.FileTest.EXISTS),
+    ).map(async (browser) => ({
+      ...browser,
+      profiles: await getProfilesFromConfigFile(browser.path),
+    })),
   );
 }
 
-/**
- *
- * @param title
- * @param path
- * @returns
- */
-function getProfilesFromConfigFile(path: string): string[] {
-  let fileContent = GLib.file_get_contents(path)[1];
-  let content = fileContent.toString();
-  let namePattern = /Name=(.*)/g;
-  let profiles: string[] = [];
-  let match;
-
-  while ((match = namePattern.exec(content)) !== null) {
-    profiles.push(match[1]);
-  }
-
-  return profiles;
+function getProfilesFromConfigFile(path: string): Promise<string[]> {
+  return new Promise((resolve) => {
+    const file = Gio.File.new_for_path(path);
+    file.load_contents_async(null, (_source, result) => {
+      try {
+        const [, contents] = file.load_contents_finish(result);
+        const content = new TextDecoder().decode(contents);
+        resolve([...content.matchAll(/Name=(.*)/g)].map((m) => m[1]));
+      } catch {
+        resolve([]);
+      }
+    });
+  });
 }
