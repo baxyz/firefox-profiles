@@ -121,7 +121,7 @@ jobs:
   pr-summary:
     name: PR Summary
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: ${{ always() && github.event_name == 'pull_request' }}
     needs: [lint, format, test, build, analyze]
     permissions:
       pull-requests: write

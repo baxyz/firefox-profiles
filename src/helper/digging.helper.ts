@@ -18,12 +18,12 @@ export type BrowserProfiles = Pick<BrowserInfo, "label" | "command"> & {
  */
 export async function getFirefoxProfiles(): Promise<Array<BrowserProfiles>> {
   return Promise.all(
-    CONFIG_PATHS.filter((browser) =>
-      GLib.file_test(browser.path, GLib.FileTest.EXISTS),
-    ).map(async (browser) => ({
-      ...browser,
-      profiles: await getProfilesFromConfigFile(browser.path),
-    })),
+    CONFIG_PATHS.filter((browser) => GLib.file_test(browser.path, GLib.FileTest.EXISTS)).map(
+      async (browser) => ({
+        ...browser,
+        profiles: await getProfilesFromConfigFile(browser.path),
+      }),
+    ),
   );
 }
 
