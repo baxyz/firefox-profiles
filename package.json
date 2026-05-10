@@ -23,7 +23,8 @@
     "format:fix": "oxfmt",
     "test": "vitest --run",
     "test:watch": "vitest",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "check": "pnpm build && cp metadata.json dist/ && (cd dist && zip ../firefox-profiles.zip -9r .) && shexli firefox-profiles.zip"
   },
   "devDependencies": {
     "@girs/gjs": "4.0.0-rc.15",
