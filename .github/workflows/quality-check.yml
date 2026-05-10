@@ -93,3 +93,27 @@ jobs:
 
       - name: Build project
         run: pnpm run build
+
+  analyze:
+    name: Analyze (shexli)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install shexli
+        run: pipx install shexli
+
+      - name: Run shexli analysis
+        run: pnpm run check
