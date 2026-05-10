@@ -59,14 +59,14 @@ class FirefoxProfilesIndicator extends Button {
    * This is called on initial load and when the refresh button is clicked.
    */
   private refreshProfiles(): void {
-    const profiles = getFirefoxProfiles();
-
-    fillMenu({
-      title: this.title,
-      menu: this.menu,
-      profiles,
-      notify: Main.notify,
-    });
+    getFirefoxProfiles().then((profiles) =>
+      fillMenu({
+        title: this.title,
+        menu: this.menu,
+        profiles,
+        notify: Main.notify,
+      }),
+    );
   }
 }
 
