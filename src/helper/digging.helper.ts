@@ -14,7 +14,7 @@ export type BrowserProfiles = Pick<BrowserInfo, "label" | "command"> & {
 
 /**
  * Get Firefox profiles
- * @returns {Array} - Array of Firefox profiles
+ * @returns {Promise<Array<BrowserProfiles>>} - Resolves with an array of Firefox profiles (empty if none found)
  */
 export async function getFirefoxProfiles(): Promise<Array<BrowserProfiles>> {
   return Promise.all(

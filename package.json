@@ -24,7 +24,7 @@
     "test": "vitest --run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "shexli": "pnpm build && cp metadata.json dist/ && (cd dist && zip ../firefox-profiles.zip -9r .) && shexli firefox-profiles.zip"
+    "shexli": "pnpm build && cp metadata.json dist/ && (cd dist && zip ../firefox-profiles.zip -9r .) && (shexli firefox-profiles.zip || (echo 'shexli not found — install with: pipx install shexli' && exit 1))"
   },
   "devDependencies": {
     "@girs/gjs": "4.0.0-rc.15",
