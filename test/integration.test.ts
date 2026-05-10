@@ -26,7 +26,8 @@ describe("Firefox Profiles Extension Integration", () => {
     const versions = metadata["shell-version"];
 
     versions.forEach((version) => {
-      const tempConfigPath = resolve(process.cwd(), `.tsconfig.test-${version}.json`);
+      const cwd = process.cwd();
+      const tempConfigPath = resolve(cwd, `.tsconfig.test-${version}.json`);
 
       const tempConfig = {
         ...tsconfig,
@@ -41,10 +42,11 @@ describe("Firefox Profiles Extension Integration", () => {
         },
       };
 
+      const tscBin = resolve(cwd, "node_modules/.bin/tsc");
       try {
         writeFileSync(tempConfigPath, JSON.stringify(tempConfig, null, 2));
-        execSync(`npx tsc --project ${tempConfigPath}`, {
-          cwd: process.cwd(),
+        execSync(`"${tscBin}" --project ${tempConfigPath}`, {
+          cwd,
           encoding: "utf-8",
         });
       } catch (error: any) {
