@@ -1,5 +1,8 @@
 # Firefox Profiles
 
+> **This extension is now maintained in the [gnome-extensions](https://github.com/baxyz/gnome-extensions) monorepo.**
+> New features and issues should go there. This repository is kept for historical reference.
+
 Easily launch Firefox with your favorite profile right from the indicator menu!
 
 Supports Firefox (regular, snap, and flatpak), Floorp (flatpak), and Zen (flatpak).
@@ -29,7 +32,7 @@ unzip firefox-profiles.zip -d ~/.local/share/gnome-shell/extensions/firefox-prof
 
 ### Compilation
 
-Please have a look to the official documentation on [Build and packaging automation ](https://gjs.guide/extensions/development/typescript.html#build-and-packaging-automation) for more information.
+Please have a look to the official documentation on [Build and packaging automation](https://gjs.guide/extensions/development/typescript.html#build-and-packaging-automation) for more information.
 
 You can run `make` to compile your code and generate the file `extension.js` inside the dist folder. If needed, it will install the dependencies using pnpm install.
 

@@ -3,15 +3,16 @@
   "version": "4.0.0",
   "private": true,
   "description": "This GNOME extension streamlines launching Firefox profiles from the indicator menu.",
-  "homepage": "https://github.com/baxyz/firefox-profiles#readme",
+  "homepage": "https://github.com/baxyz/gnome-extensions/tree/main/extensions/firefox-profiles#readme",
   "bugs": {
-    "url": "https://github.com/baxyz/firefox-profiles/issues"
+    "url": "https://github.com/baxyz/gnome-extensions/issues"
   },
   "license": "AGPL-3.0-only",
   "author": "baxyz <berenger@arnaud.work>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/baxyz/firefox-profiles.git"
+    "url": "git+https://github.com/baxyz/gnome-extensions.git",
+    "directory": "extensions/firefox-profiles"
   },
   "type": "module",
   "sideEffects": false,
